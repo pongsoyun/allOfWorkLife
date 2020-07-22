@@ -18,6 +18,11 @@ submitBtn.addEventListener('click', (event) => {
 	text.value = '';
 });
 
+// * UUID
+function createUUID() {
+	return '_' + Math.random().toString(36).substr(2, 9);
+}
+
 // * 수정시에도 재사용할수있도록
 function addMemo(menu, text) {
 	console.log(`가져온 menu: ${menu}, text: ${text}`);
@@ -48,7 +53,8 @@ function addMemo(menu, text) {
 			break;
 	}
 
-	localStorage.setItem(menu, JSON.stringify([...db, { text }])); // id, star ?
+	const id = createUUID();
+	localStorage.setItem(menu, JSON.stringify([...db, { text, id }])); // id, star ?
 	db = JSON.parse(localStorage.getItem(menu));
 
 	switch (menu) {
