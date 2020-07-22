@@ -37,7 +37,18 @@ body {
 	display: inline-block;
 }
 
-.delete__btn i {
+/* bin */
+.memo__info {
+	display: flex;
+}
+.memo__menu {
+	flex: 1;
+	text-align: right;
+	margin: 10px 10px;
+}
+
+.memo__info i {
+	flex: none;
 	float: right;
 	margin-top: 10px;
 }
