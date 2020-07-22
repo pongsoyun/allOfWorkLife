@@ -37,6 +37,11 @@ body {
 	display: inline-block;
 }
 
+.delete__btn i {
+	float: right;
+	margin-top: 10px;
+}
+
 .memos__container {
 	height: 600px;
 	overflow-y: auto;
@@ -80,7 +85,7 @@ body {
 	flex-direction: row;
 }
 
-.input__menus li {
+.input__menus div {
 	margin: auto;
 }
 
@@ -102,7 +107,8 @@ body {
 	/* vertical-align: middle; */
 }
 
-.input__memo textarea {
+.input__memo__text {
+	resize: none;
 	display: inline-block;
 	margin: 10px 40px;
 	width: 950px;
