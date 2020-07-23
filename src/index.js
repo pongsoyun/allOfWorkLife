@@ -26,6 +26,7 @@ submitBtn.addEventListener('click', (event) => {
 
 	addMemo(menu, text.value, id);
 	const memo = getMemoForm(menu, text.value, id);
+	memos.appendChild(memo);
 
 	text.value = '';
 });
