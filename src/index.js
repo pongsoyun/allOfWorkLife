@@ -24,10 +24,13 @@ submitBtn.addEventListener('click', (event) => {
 	const text = getText();
 	const id = createUUID();
 
-	addMemo(menu, text.value, id);
-	const memo = getMemoForm(menu, text.value, id);
-	memos.appendChild(memo);
-
+	if (text.value) {
+		// ''일경우 반응 x
+		addMemo(menu, text.value, id);
+		const memo = getMemoForm(menu, text.value, id);
+		memos.appendChild(memo);
+		memo.scrollIntoView({ behavior: 'smooth', block: 'end' });
+	}
 	text.value = '';
 });
 
@@ -50,7 +53,7 @@ function getMemoForm(menu, text, id) {
 		<span class="memo__menu" id=${id}>${menu}</span>
 		<i class="fas fa-trash-alt memo__delete__btn" id=${id}></i>
 	</div>
-    `;
+	`;
 
 	memo.addEventListener('click', (event) => {
 		if (event.target.className === 'memo__text') {
