@@ -44,12 +44,12 @@ function getMemoForm(menu, text, id) {
 	memo.setAttribute('class', 'memo');
 	memo.setAttribute('id', id);
 	memo.innerHTML = `
-    <div class="memo__text">
-	    ${text}						
+    <div class="memo__text" id = ${id}>
+	    ${text}
 	</div>
     <div class="memo__info">
-		<span class="memo__menu">${menu}</span>
-		<i class="fas fa-trash-alt memo__delete__btn"></i>
+		<span class="memo__menu" id=${id}>${menu}</span>
+		<i class="fas fa-trash-alt memo__delete__btn" id=${id}></i>
 	</div>
     `;
 
@@ -57,6 +57,11 @@ function getMemoForm(menu, text, id) {
 		if (event.target.className === 'memo__text') {
 			// 수정하기
 			console.log('edit button pressed');
+
+			// 1. 거기있는 menu, text, id 가져와서 db에서 삭제하고 -> input 에 그대로 넣어줘야됨
+			console.log(event.target.id);
+			// deleteMemo();
+			// addMemo()
 		}
 
 		if (event.target.clasName === 'memo__menu') {
