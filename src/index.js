@@ -59,18 +59,18 @@ function getMemoForm(menu, text, id) {
 			console.log('edit button pressed');
 
 			// 1. 거기있는 menu, text, id 가져와서 db에서 삭제하고 -> input 에 그대로 넣어줘야됨
-			console.log(event.target.id);
-			// deleteMemo();
-			// addMemo()
+			// deleteMemo(event.target.id);
+			// input.value = text;
 		}
 
 		if (event.target.clasName === 'memo__menu') {
 			// menu 수정하기? -> 보류
 		}
+		console.log(event.target.className);
 
-		if (event.target.className === 'memo__delete__btn') {
+		if (event.target.className === 'fas fa-trash-alt memo__delete__btn') {
 			// 삭제하기
-			console.log('delete button pressed');
+			deleteMemo(event.target.id);
 		}
 	});
 
@@ -82,6 +82,22 @@ function createUUID() {
 	return '_' + Math.random().toString(36).substr(2, 9);
 }
 
+function deleteMemo(id) {
+	console.log(id);
+	const [deleteMemo] = allDB.filter((memo) => {
+		if (memo.id === id) return memo;
+	});
+
+	// db에서 해당하는 애 찾고, 삭제
+	let db = getMenuDB(deleteMemo.menu);
+	db = db.filter((memo) => memo.id !== id);
+	setMenuDB(deleteMemo.menu, db);
+
+	// 화면에서 삭제
+	const deleteTodo = document.querySelector(`.memo[id="${id}"]`);
+	deleteTodo.remove();
+}
+
 // * 수정시에도 재사용할수있도록
 function addMemo(menu, text, id) {
 	console.log(`가져온 menu: ${menu}, text: ${text}`);
@@ -90,6 +106,34 @@ function addMemo(menu, text, id) {
 
 	// local Storage에 등록
 	let db = ''; // default
+
+	// * 현재 가져올 db 문자열에 해당하는 db 찾기
+	db = getMenuDB(menu);
+
+	localStorage.setItem(menu, JSON.stringify([...db, { menu, text, id }])); // id, star ?
+	allDB.push({ menu, text, id });
+	db = JSON.parse(localStorage.getItem(menu));
+
+	// * 현재 넣을 db 찾기
+	setMenuDB(menu, db);
+}
+
+function getMenu() {
+	const menus = document.querySelectorAll('input[type="radio"]');
+	for (let menu of menus) {
+		if (menu.checked) return menu.id;
+	}
+	// return ''; // 사실 이 경우는 없음
+}
+
+function getText() {
+	const text = document.querySelector('.input__memo__text');
+	// console.log(text.value);
+	return text;
+}
+
+function getMenuDB(menu) {
+	let db = '';
 
 	switch (menu) {
 		case 'work':
@@ -112,8 +156,11 @@ function addMemo(menu, text, id) {
 			break;
 	}
 
-	localStorage.setItem(menu, JSON.stringify([...db, { menu, text, id }])); // id, star ?
-	db = JSON.parse(localStorage.getItem(menu));
+	return db;
+}
+
+function setMenuDB(menu, db) {
+	localStorage.setItem(menu, JSON.stringify(db));
 
 	switch (menu) {
 		case 'work':
@@ -135,31 +182,4 @@ function addMemo(menu, text, id) {
 			habitDB = db;
 			break;
 	}
-}
-
-function getMenu() {
-	const menus = document.querySelectorAll('input[type="radio"]');
-	for (let menu of menus) {
-		if (menu.checked) return menu.id;
-	}
-	// return ''; // 사실 이 경우는 없음
-
-	// * NodeList -> Arrayㄹ로 변환해 filter 쓰려면
-	// const menusArr = Array.from(menus);
-	// const realMenu = menusArr.filter((menu) => menu.checked === true);
-
-	// * 이렇게 하려면 항상 주시하고있어야되니까 함수안에 넣지 못함..
-	// menus.addEventListener('click', (event) => {
-	// 	// text 클릭시 ''라 처리해주기
-	// 	if (event.target.id) {
-	// 		console.log(event.target.id);
-	// 		return event.target.id;
-	// 	}
-	// });
-}
-
-function getText() {
-	const text = document.querySelector('.input__memo__text');
-	// console.log(text.value);
-	return text;
 }
