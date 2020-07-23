@@ -9,12 +9,12 @@ let habitDB = JSON.parse(localStorage.getItem('habit')) || [];
 let allDB = [...workDB, ...lifeDB, ...hobbyDB, ...wishDB, ...healthDB, ...habitDB];
 
 // * Showing habit
+let habitIndex = 0;
 showingHabit();
 
 function showingHabit() {
 	const habitText = document.querySelector('.habbit__text');
 
-	let habitIndex = 0;
 	habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
 
 	window.setInterval(() => {
@@ -22,6 +22,20 @@ function showingHabit() {
 		habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
 	}, 5000);
 }
+
+const habitBtn = document.querySelector('.habit__btn__container');
+habitBtn.addEventListener('click', (event) => {
+	const habitText = document.querySelector('.habbit__text');
+	switch (event.target.className) {
+		case 'habit__prev__btn':
+			habitIndex = habitIndex <= 0 ? habitDB.length - 1 : habitIndex - 1;
+			break;
+		case 'habit__next__btn':
+			habitIndex = habitIndex >= habitDB.length - 1 ? 0 : habitIndex + 1;
+			break;
+	}
+	habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
+});
 
 // * submitBtn 눌렸을 때
 const submitBtn = document.querySelector('.input__memo__submit');
