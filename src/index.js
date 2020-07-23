@@ -34,7 +34,6 @@ submitBtn.addEventListener('click', (event) => {
 // * 처음 시작했을 때
 allDB.forEach((memo) => {
 	const form = getMemoForm(memo.menu, memo.text, memo.id);
-	// console.log(form);
 	memos.appendChild(form);
 });
 
@@ -58,15 +57,24 @@ function getMemoForm(menu, text, id) {
 			// 수정하기
 			console.log('edit button pressed');
 
-			// 1. 거기있는 menu, text, id 가져와서 db에서 삭제하고 -> input 에 그대로 넣어줘야됨
-			// deleteMemo(event.target.id);
-			// input.value = text;
+			// * 삭제하려는 menu, text, id 가져와서
+			// * db에서 삭제하고
+			deleteMemo(event.target.id);
+
+			// * input 에 그대로 넣어주고
+			const input = document.querySelector('.input__memo__text');
+			input.value = text;
+
+			// * radio check하기
+			const menus = document.querySelectorAll('input[type="radio"]');
+			for (let radioMenu of menus) {
+				if (radioMenu.id === menu) radioMenu.checked = true;
+			}
 		}
 
 		if (event.target.clasName === 'memo__menu') {
 			// menu 수정하기? -> 보류
 		}
-		console.log(event.target.className);
 
 		if (event.target.className === 'fas fa-trash-alt memo__delete__btn') {
 			// 삭제하기
@@ -83,7 +91,6 @@ function createUUID() {
 }
 
 function deleteMemo(id) {
-	console.log(id);
 	const [deleteMemo] = allDB.filter((memo) => {
 		if (memo.id === id) return memo;
 	});
@@ -94,16 +101,12 @@ function deleteMemo(id) {
 	setMenuDB(deleteMemo.menu, db);
 
 	// 화면에서 삭제
-	const deleteTodo = document.querySelector(`.memo[id="${id}"]`);
-	deleteTodo.remove();
+	const deleteForm = document.querySelector(`.memo[id="${id}"]`);
+	deleteForm.remove();
 }
 
 // * 수정시에도 재사용할수있도록
 function addMemo(menu, text, id) {
-	console.log(`가져온 menu: ${menu}, text: ${text}`);
-
-	// main 화면 Update
-
 	// local Storage에 등록
 	let db = ''; // default
 
