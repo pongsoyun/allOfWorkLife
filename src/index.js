@@ -1,4 +1,4 @@
-const memos = document.querySelector('.memo__list');
+let memos = document.querySelector('.memo__list');
 
 let workDB = JSON.parse(localStorage.getItem('work')) || [];
 let lifeDB = JSON.parse(localStorage.getItem('life')) || [];
@@ -7,15 +7,6 @@ let wishDB = JSON.parse(localStorage.getItem('wish')) || [];
 let healthDB = JSON.parse(localStorage.getItem('health')) || [];
 let habitDB = JSON.parse(localStorage.getItem('habit')) || [];
 let allDB = [...workDB, ...lifeDB, ...hobbyDB, ...wishDB, ...healthDB, ...habitDB];
-// * 데이터에 아예 menu를 같이 저장하는 편이 db 수정할때도 더 편할 것 같음
-// let allDB = {
-// 	work: workDB,
-// 	life: lifeDB,
-// 	hobby: hobbyDB,
-// 	wish: wishDB,
-// 	health: healthDB,
-// 	habit: habitDB,
-// };
 
 // * submitBtn 눌렸을 때
 const submitBtn = document.querySelector('.input__memo__submit');
@@ -35,10 +26,55 @@ submitBtn.addEventListener('click', (event) => {
 });
 
 // * 처음 시작했을 때
-allDB.forEach((memo) => {
-	const form = getMemoForm(memo.menu, memo.text, memo.id);
-	memos.appendChild(form);
+filterMemos('nav__all');
+
+// * 항상 listener, menu
+const nav = document.querySelector('.menus__container');
+nav.addEventListener('click', (navMenu) => {
+	const navChoice = navMenu.target.className;
+	filterMemos(navChoice);
 });
+
+// * <main> filter해주는 부분
+function filterMemos(navChoice) {
+	const db = getNavDB(navChoice); //에 해당하는 것만 보여줄거임
+
+	memos.innerHTML = '';
+	db.forEach((memo) => {
+		const form = getMemoForm(memo.menu, memo.text, memo.id);
+		memos.appendChild(form);
+	});
+}
+
+function getNavDB(navClassName) {
+	let db = [];
+	switch (navClassName) {
+		case 'nav__all':
+			db = allDB;
+			break;
+		case 'nav__work':
+			db = workDB;
+			break;
+		case 'nav__life':
+			db = lifeDB;
+			break;
+		case 'nav__hobby':
+			db = hobbyDB;
+			break;
+		case 'nav__wish':
+			db = wishDB;
+			break;
+		case 'nav__health':
+			db = healthDB;
+			break;
+		case 'nav__habit':
+			db = habitDB;
+			break;
+	}
+	return db;
+}
+
+function choiceMenu() {}
 
 // * 메모 폼 하나 만들어주기
 function getMemoForm(menu, text, id) {
