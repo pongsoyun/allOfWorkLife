@@ -8,6 +8,21 @@ let healthDB = JSON.parse(localStorage.getItem('health')) || [];
 let habitDB = JSON.parse(localStorage.getItem('habit')) || [];
 let allDB = [...workDB, ...lifeDB, ...hobbyDB, ...wishDB, ...healthDB, ...habitDB];
 
+// * Showing habit
+showingHabit();
+
+function showingHabit() {
+	const habitText = document.querySelector('.habbit__text');
+
+	let habitIndex = 0;
+	habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
+
+	window.setInterval(() => {
+		habitIndex = habitIndex >= habitDB.length - 1 ? 0 : habitIndex + 1;
+		habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
+	}, 5000);
+}
+
 // * submitBtn 눌렸을 때
 const submitBtn = document.querySelector('.input__memo__submit');
 submitBtn.addEventListener('click', (event) => {
@@ -74,8 +89,6 @@ function getNavDB(navClassName) {
 	return db;
 }
 
-function choiceMenu() {}
-
 // * 메모 폼 하나 만들어주기
 function getMemoForm(menu, text, id) {
 	const memo = document.createElement('li');
@@ -94,8 +107,6 @@ function getMemoForm(menu, text, id) {
 	memo.addEventListener('click', (event) => {
 		if (event.target.className === 'memo__text') {
 			// 수정하기
-			console.log('edit button pressed');
-
 			// * 삭제하려는 menu, text, id 가져와서
 			// * db에서 삭제하고
 			deleteMemo(event.target.id);
@@ -170,7 +181,6 @@ function getMenu() {
 
 function getText() {
 	const text = document.querySelector('.input__memo__text');
-	// console.log(text.value);
 	return text;
 }
 

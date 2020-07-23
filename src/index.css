@@ -25,6 +25,10 @@ body {
 	margin: 10px 40px;
 }
 
+ul {
+	list-style: none;
+}
+
 /* section */
 
 .memo {
@@ -32,7 +36,7 @@ body {
 	margin: 10px 10px;
 	background-color: antiquewhite;
 	border-radius: 10px;
-	width: 500px;
+	width: 470px;
 	height: auto;
 	display: inline-block;
 }
@@ -79,12 +83,12 @@ body {
 	margin-left: auto;
 }
 
-.habit__text {
+.habit__div {
 	margin: 20px 40px;
 	flex: none;
 }
 
-.habit__text span {
+.habit__div span {
 	float: left;
 	height: 100%;
 }
