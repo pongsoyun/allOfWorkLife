@@ -4,6 +4,7 @@ body {
 	font-size: 20px;
 	color: grey;
 	text-align: center;
+	font-weight: 300;
 }
 
 .page {
@@ -46,15 +47,25 @@ ul {
 	display: flex;
 }
 .memo__menu {
+	font-size: 16px;
 	flex: 1;
 	text-align: right;
-	margin: 10px 10px;
+	margin-top: 20px;
+	margin-right: 10px;
 }
 
-.memo__info i {
+.memo__delete__btn {
+	color: grey;
 	flex: none;
 	float: right;
-	margin-top: 10px;
+	margin-top: 20px;
+	transition: all 300ms ease-in;
+	cursor: pointer;
+}
+
+.memo__delete__btn:hover {
+	color: rosybrown;
+	transform: scale(1.1);
 }
 
 .memos__container {
@@ -71,6 +82,15 @@ ul {
 
 .menus li {
 	margin: auto;
+	transition: all 300ms ease-in;
+}
+
+.menus li:hover {
+	/* font-weight: 400; */
+	/* color: rosybrown; */
+	transform: scale(1.1);
+	color: white;
+	background-color: rgba(189, 143, 142, 0.6);
 }
 
 .habit {
@@ -104,6 +124,20 @@ ul {
 	margin: auto;
 }
 
+input[type='radio'] {
+	cursor: pointer;
+}
+
+label {
+	cursor: pointer;
+	transition: all 300ms ease-in;
+}
+
+label:hover {
+	background-color: rgba(189, 143, 142, 0.6);
+	color: white;
+}
+
 .input__container {
 	margin: 0;
 	display: flex;
@@ -122,6 +156,10 @@ ul {
 	/* vertical-align: middle; */
 }
 
+.input__memo__submit > button:focus {
+	outline: none;
+}
+
 .input__memo__text {
 	resize: none;
 	display: inline-block;
@@ -133,4 +171,61 @@ ul {
 .input__memo__submit button {
 	width: 70px;
 	height: 70px;
+}
+
+button {
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.input__memo__submit__btn {
+	color: grey;
+	font-size: 30px;
+	transition: all 300ms ease-in;
+}
+
+.input__memo__submit__btn:hover {
+	color: rosybrown;
+	transform: scale(1.1);
+}
+
+.habit__prev__btn:focus {
+	outline: none;
+}
+
+.habit__prev__btn > i {
+	color: grey;
+	font-size: 16px;
+	transition: all 300ms ease-in;
+}
+
+.habit__next__btn > i {
+	color: grey;
+	font-size: 16px;
+	transition: all 300ms ease-in;
+}
+
+.habit__prev__btn > i:hover {
+	color: rosybrown;
+	transform: scale(1.1);
+}
+
+.habit__next__btn > i:hover {
+	color: rosybrown;
+	transform: scale(1.1);
+}
+
+.habit__next__btn:focus {
+	outline: none;
+}
+
+textarea {
+	border: none;
+	border-radius: 10px;
+	background-color: rgba(189, 143, 142, 0.6);
+	padding: 10px 10px;
+	font-weight: 300;
+	font-size: 20px;
+	color: white;
 }
