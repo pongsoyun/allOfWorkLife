@@ -7,6 +7,7 @@ let wishDB = JSON.parse(localStorage.getItem('wish')) || [];
 let healthDB = JSON.parse(localStorage.getItem('health')) || [];
 let habitDB = JSON.parse(localStorage.getItem('habit')) || [];
 let allDB = [...workDB, ...lifeDB, ...hobbyDB, ...wishDB, ...healthDB, ...habitDB];
+let habitIndex = 0;
 
 run();
 // ! 프로그램 가져올때 run() 하세요
@@ -22,7 +23,6 @@ function run() {
 
 function habitRun() {
 	// * Showing habit
-	let habitIndex = 0;
 	habitTextSection();
 	habitBtnSection();
 }
