@@ -8,11 +8,46 @@ let healthDB = JSON.parse(localStorage.getItem('health')) || [];
 let habitDB = JSON.parse(localStorage.getItem('habit')) || [];
 let allDB = [...workDB, ...lifeDB, ...hobbyDB, ...wishDB, ...healthDB, ...habitDB];
 
-// * Showing habit
-let habitIndex = 0;
-showingHabit();
+run();
+// ! 프로그램 가져올때 run() 하세요
+function run() {
+	// * 처음 시작했을 때
+	filterMemos('nav__all'); // default : all
 
-function showingHabit() {
+	// 최초 시작했을 때
+	habitRun();
+	memoRun();
+	inputRun();
+}
+
+function habitRun() {
+	// * Showing habit
+	let habitIndex = 0;
+	habitTextSection();
+	habitBtnSection();
+}
+
+function memoRun() {
+	// * Memo Section
+	memoNavSection();
+	// memoTextSection ();
+	// memoNavSection();
+}
+
+function inputRun() {
+	submitBtnPressed();
+}
+
+function memoNavSection() {
+	// * 항상 listener, menu
+	const nav = document.querySelector('.menus__container');
+	nav.addEventListener('click', (navMenu) => {
+		const navChoice = navMenu.target.className;
+		filterMemos(navChoice);
+	});
+}
+
+function habitTextSection() {
 	const habitText = document.querySelector('.habbit__text');
 
 	habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
@@ -23,46 +58,40 @@ function showingHabit() {
 	}, 5000);
 }
 
-const habitBtn = document.querySelector('.habit__btn__container');
-habitBtn.addEventListener('click', (event) => {
-	const habitText = document.querySelector('.habbit__text');
-	switch (event.target.className) {
-		case 'habit__prev__btn':
-			habitIndex = habitIndex <= 0 ? habitDB.length - 1 : habitIndex - 1;
-			break;
-		case 'habit__next__btn':
-			habitIndex = habitIndex >= habitDB.length - 1 ? 0 : habitIndex + 1;
-			break;
-	}
-	habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
-});
+function habitBtnSection() {
+	const habitBtn = document.querySelector('.habit__btn__container');
+	habitBtn.addEventListener('click', (event) => {
+		const habitText = document.querySelector('.habbit__text');
+		switch (event.target.className) {
+			case 'habit__prev__btn':
+				habitIndex = habitIndex <= 0 ? habitDB.length - 1 : habitIndex - 1;
+				break;
+			case 'habit__next__btn':
+				habitIndex = habitIndex >= habitDB.length - 1 ? 0 : habitIndex + 1;
+				break;
+		}
+		habitText.innerText = habitDB.length === 0 ? `여기에 습관을 입력해주세요 🥰` : habitDB[habitIndex].text;
+	});
+}
 
 // * submitBtn 눌렸을 때
-const submitBtn = document.querySelector('.input__memo__submit');
-submitBtn.addEventListener('click', (event) => {
-	const menu = getMenu();
-	const text = getText();
-	const id = createUUID();
+function submitBtnPressed() {
+	const submitBtn = document.querySelector('.input__memo__submit');
+	submitBtn.addEventListener('click', (event) => {
+		const menu = getMenu();
+		const text = getText();
+		const id = createUUID();
 
-	if (text.value) {
-		// ''일경우 반응 x
-		addMemo(menu, text.value, id);
-		const memo = getMemoForm(menu, text.value, id);
-		memos.appendChild(memo);
-		memo.scrollIntoView({ behavior: 'smooth', block: 'end' });
-	}
-	text.value = '';
-});
-
-// * 처음 시작했을 때
-filterMemos('nav__all');
-
-// * 항상 listener, menu
-const nav = document.querySelector('.menus__container');
-nav.addEventListener('click', (navMenu) => {
-	const navChoice = navMenu.target.className;
-	filterMemos(navChoice);
-});
+		if (text.value) {
+			// ''일경우 반응 x
+			addMemo(menu, text.value, id);
+			const memo = getMemoForm(menu, text.value, id);
+			memos.appendChild(memo);
+			memo.scrollIntoView({ behavior: 'smooth', block: 'end' });
+		}
+		text.value = '';
+	});
+}
 
 // * <main> filter해주는 부분
 function filterMemos(navChoice) {
